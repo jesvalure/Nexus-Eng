@@ -8,6 +8,9 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Nexus-Eng | The Engineering Second Brain",
   description: "Manage projects, logic, and your engineering career in one place.",
+  icons: {
+    icon: "/favicon.ico", // Ruta relativa a la carpeta public
+  },
 };
 
 export default function RootLayout({

@@ -36,10 +36,17 @@ export default function Sidebar() {
     <aside className="w-64 h-screen bg-slate-900/50 border-r border-slate-800 flex flex-col sticky top-0">
       <div className="p-6">
         <Link href="/dashboard" className="group">
-          <h2 className="text-xl font-bold text-white tracking-tighter flex items-center gap-2">
-            <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-sm group-hover:bg-blue-500 transition-colors">N</div>
-            NEXUS-ENG
-          </h2>
+          <div className="flex items-center gap-3">
+            {/* Etiqueta para el logo */}
+            <img 
+              src="/NEXUS.png" // Ruta relativa a la carpeta public
+              alt="Logo de Nexus-Eng" 
+              className="w-10 h-10 rounded-lg group-hover:bg-blue-500 transition-colors"
+            />
+            <h2 className="text-xl font-bold text-white tracking-tighter transition-colors group-hover:text-blue-500">
+              NEXUS<span className="text-blue-500 group-hover:text-white">ENG</span>
+            </h2>
+          </div>
         </Link>
       </div>
 
