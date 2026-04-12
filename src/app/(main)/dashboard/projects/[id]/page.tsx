@@ -17,7 +17,7 @@ export default async function ProjectWbsPage({ params }: { params: { id: string 
     .from("wbs_tasks")
     .select("*")
     .eq("project_id", id)
-    .order("order_index", { ascending: true });
+    .order("deadline", { ascending: true });
 
   const totalTasks = tasks?.length || 0;
   const completedTasks = tasks?.filter(t => t.status === 'done').length || 0;
