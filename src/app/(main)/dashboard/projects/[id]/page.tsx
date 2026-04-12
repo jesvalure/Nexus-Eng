@@ -9,14 +9,21 @@ export default async function ProjectWbsPage({ params }: { params: { id: string 
   const { id } = await params;
   const supabase = await createClient();
 
+  // 1. Primero traemos los datos del proyecto
   const { data: project } = await supabase.from("projects").select("*").eq("id", id).single();
   if (!project) notFound();
 
+  // 2. Luego traemos las tareas (Ahora 'tasks' sí estará declarado para lo que sigue)
   const { data: tasks } = await supabase
     .from("wbs_tasks")
     .select("*")
     .eq("project_id", id)
     .order("order_index", { ascending: true });
+
+  // 3. AHORA calculamos el progreso (Después de tener los datos)
+  const totalTasks = tasks?.length || 0;
+  const completedTasks = tasks?.filter(t => t.status === 'done').length || 0;
+  const progressPercentage = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
 
   const rootTasks = tasks?.filter(t => !t.parent_id) || [];
 
@@ -34,11 +41,28 @@ export default async function ProjectWbsPage({ params }: { params: { id: string 
         <p className="text-slate-400 max-w-2xl">{project.description}</p>
       </header>
 
+      {/* --- NUEVA BARRA DE PROGRESO --- */}
+      <div className="mb-8 p-6 bg-slate-900/40 border border-slate-800 rounded-3xl">
+        <div className="flex justify-between items-end mb-4">
+          <div>
+            <p className="text-xs font-mono text-slate-500 uppercase tracking-widest">Project Completion</p>
+            <h3 className="text-2xl font-black text-white">{progressPercentage}%</h3>
+          </div>
+          <p className="text-xs text-slate-500 font-mono">{completedTasks} / {totalTasks} Tasks Done</p>
+        </div>
+        <div className="w-full h-2 bg-slate-950 rounded-full overflow-hidden border border-slate-800">
+          <div 
+            className="h-full bg-blue-600 shadow-[0_0_15px_rgba(37,99,235,0.4)] transition-all duration-1000 ease-out" 
+            style={{ width: `${progressPercentage}%` }}
+          />
+        </div>
+      </div>
+
       <section className="bg-slate-900/20 border border-slate-800 rounded-3xl p-6">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-lg font-bold text-slate-300">Work Breakdown Structure</h2>
           <span className="text-xs font-mono text-slate-500 bg-slate-800 px-3 py-1 rounded-full">
-            {tasks?.length || 0} Nodes Defined
+            {totalTasks} Nodes Defined
           </span>
         </div>
 
