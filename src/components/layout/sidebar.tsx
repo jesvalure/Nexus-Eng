@@ -1,33 +1,32 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation"; // 1. Importar useRouter
+import { usePathname, useRouter } from "next/navigation";
 import { 
   LayoutDashboard, 
   Brain, 
   Briefcase, 
   Settings, 
   LogOut,
-  ChevronRight
+  ChevronRight,
+  ListTree // Importamos el icono para el WBS
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 
 const menuItems = [
   { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
+  { name: "WBS Engine", href: "/wbs", icon: ListTree }, // Agregado aquí
   { name: "Logic Vault", href: "/vault", icon: Brain },
   { name: "Career Hub", href: "/career", icon: Briefcase },
 ];
 
 export default function Sidebar() {
   const pathname = usePathname();
-  const router = useRouter(); // 2. Inicializar el router
+  const router = useRouter();
   const supabase = createClient();
 
   const handleLogout = async () => {
-    // Usamos el cliente ya inicializado arriba
     await supabase.auth.signOut();
-    
-    // Forzamos la redirección y el refresco para limpiar estados de sesión
     router.push("/");
     router.refresh(); 
   };
@@ -37,9 +36,8 @@ export default function Sidebar() {
       <div className="p-6">
         <Link href="/dashboard" className="group">
           <div className="flex items-center gap-3">
-            {/* Etiqueta para el logo */}
             <img 
-              src="/NEXUS.png" // Ruta relativa a la carpeta public
+              src="/NEXUS.png" 
               alt="Logo de Nexus-Eng" 
               className="w-10 h-10 rounded-lg group-hover:bg-blue-500 transition-colors"
             />
@@ -74,8 +72,14 @@ export default function Sidebar() {
       </nav>
 
       <div className="p-4 border-t border-slate-800 space-y-2">
-        {/* Link de Settings: Asegúrate de que esta página exista luego */}
-        <Link href="/settings" className="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-slate-200 transition-colors rounded-xl hover:bg-slate-800">
+        <Link 
+          href="/settings" 
+          className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-colors ${
+            pathname === "/settings" 
+              ? "bg-blue-600 text-white" 
+              : "text-slate-400 hover:text-slate-200 hover:bg-slate-800"
+          }`}
+        >
           <Settings className="h-5 w-5" />
           <span className="text-sm font-medium">Settings</span>
         </Link>
