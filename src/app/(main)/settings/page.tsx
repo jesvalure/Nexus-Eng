@@ -8,11 +8,13 @@ export default function SettingsPage() {
   const [activeTab, setActiveTab] = useState("profile");
   const supabase = createClient();
 
+  // Función para cerrar sesión
   const handleSignOut = async () => {
     await supabase.auth.signOut();
     window.location.href = "/login";
   };
 
+  // Definición de las pestañas de configuración
   const tabs = [
     { id: "profile", label: "Professional Profile", icon: User },
     { id: "security", label: "Security", icon: Shield },

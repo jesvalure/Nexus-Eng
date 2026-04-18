@@ -60,6 +60,7 @@ export default function Dashboard() {
         const progress = total > 0 ? Math.round((completed / total) * 100) : 0;
         
         // Buscamos el deadline más cercano de las tareas
+        
         const deadlines = projectData.wbs_tasks?.map((t: any) => t.deadline).filter(Boolean);
         const nextDeadline = deadlines.length > 0 ? new Date(Math.min(...deadlines.map((d: any) => new Date(d).getTime()))).toLocaleDateString() : 'TBD';
 
@@ -105,12 +106,8 @@ export default function Dashboard() {
           Bienvenido, <span className="text-blue-500 font-black">{profile?.full_name?.split(' ')[0] || "Ingeniero"}</span>
         </motion.h1>
         <div className="flex items-center gap-3 mt-2">
-          <span className="flex items-center gap-1 text-slate-400 font-mono text-[10px] uppercase tracking-wider">
-            <Activity size={12} className="text-emerald-500" /> Kernel: Active
-          </span>
-          <span className="text-slate-700">|</span>
           <span className="text-slate-400 font-mono text-[10px] uppercase tracking-wider">
-            {profile?.program || "Ingeniería"} // S{profile?.semester || "8"}
+            {profile?.program || "Ingeniería"} // Semester {profile?.semester || "8"}
           </span>
         </div>
       </header>

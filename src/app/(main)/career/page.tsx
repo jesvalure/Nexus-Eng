@@ -31,6 +31,7 @@ export default function CareerPage() {
     fetchCases();
   }, []);
 
+  // Función para eliminar un caso
   const handleDelete = async (id: string) => {
     if (confirm("¿Confirmas la eliminación? Esta acción no se puede deshacer.")) {
       const { error } = await supabase.from("career_star_cases").delete().eq("id", id);
@@ -39,12 +40,14 @@ export default function CareerPage() {
     }
   };
 
+  // Función para copiar el resultado al portapapeles
   const copyToClipboard = (text: string, id: string) => {
     navigator.clipboard.writeText(text);
     setCopiedId(id);
     setTimeout(() => setCopiedId(null), 2000);
   };
 
+  // Filtrar casos según el término de búsqueda
   const filteredCases = cases.filter(c => 
     c.title.toLowerCase().includes(search.toLowerCase()) || 
     c.result.toLowerCase().includes(search.toLowerCase())
@@ -71,7 +74,7 @@ export default function CareerPage() {
         </div>
       </header>
 
-      {/* Componente de inserción con el prop onUpdate corregido */}
+      {/* Componente de inserción con el prop onUpdate */}
       <AddStarCase onUpdate={fetchCases} />
 
       {/* Lista de Casos STAR */}
