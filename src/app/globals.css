@@ -11,3 +11,10 @@ body {
   background: rgb(var(--background-start-rgb));
   font-family: 'Inter', sans-serif; /* O la fuente que prefieras */
 }
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #334155; /* slate-700 */
+  border-radius: 10px;
+}
